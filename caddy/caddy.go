@@ -90,6 +90,9 @@ type Mercure struct {
 	// Maximum cache cost, defaults to 100MB, set to -1 to disable the cache. See https://github.com/dgraph-io/ristretto for details.
 	CacheMaxCost *int64 `json:"cache_max_cost,omitempty"`
 
+	// The name of the authorization cookie. Defaults to "mercureAuthorization".
+	CookieName string `json:"cookie_name,omitempty"`
+
 	hub    *mercure.Hub
 	logger *zap.Logger
 }
@@ -169,6 +172,7 @@ func (m *Mercure) Provision(ctx caddy.Context) error { //nolint:funlen
 		mercure.WithTransport(destructor.(*transportDestructor).transport),
 		mercure.WithMetrics(metrics),
 		mercure.WithPublisherJWT([]byte(m.PublisherJWT.Key), m.PublisherJWT.Alg),
+		mercure.WithCookieName(m.CookieName),
 	}
 	if m.logger.Core().Enabled(zapcore.DebugLevel) {
 		opts = append(opts, mercure.WithDebug())
@@ -359,6 +363,13 @@ func (m *Mercure) UnmarshalCaddyfile(d *caddyfile.Dispenser) error { //nolint:fu
 				}
 
 				m.CacheMaxCost = &v
+
+			case "cookie_name":
+				if !d.NextArg() {
+					return d.ArgErr()
+				}
+
+				m.CookieName = d.Val()
 			}
 		}
 	}
