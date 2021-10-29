@@ -46,7 +46,7 @@ func createRedisClient(u *url.URL) (*redis.Client, string, int64, error) {
 	if sizeParameter != "" {
 		size, err = strconv.ParseInt(sizeParameter, 10, 64)
 		if err != nil {
-			err = &ErrTransport{u.Redacted(), fmt.Sprintf(`invalid "size" parameter %q`, sizeParameter), err}
+			err = &TransportError{u.Redacted(), fmt.Sprintf(`invalid "size" parameter %q`, sizeParameter), err}
 
 			return nil, streamName, 0, err
 		}
@@ -57,7 +57,7 @@ func createRedisClient(u *url.URL) (*redis.Client, string, int64, error) {
 
 	redisOptions, err := redis.ParseURL(u.String())
 	if err != nil {
-		err = &ErrTransport{u.Redacted(), fmt.Sprintf(`invalid "redis" dsn %q`, u.String()), err}
+		err = &TransportError{u.Redacted(), fmt.Sprintf(`invalid "redis" dsn %q`, u.String()), err}
 
 		return nil, streamName, 0, err
 	}
@@ -74,7 +74,7 @@ func createRedisClient(u *url.URL) (*redis.Client, string, int64, error) {
 	}
 
 	if _, err := client.Ping().Result(); err != nil {
-		err = &ErrTransport{u.Redacted(), fmt.Sprintf(`error connecting to redis:  %s`, err), err}
+		err = &TransportError{u.Redacted(), fmt.Sprintf(`error connecting to redis:  %s`, err), err}
 
 		return nil, streamName, 0, err
 	}
