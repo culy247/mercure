@@ -35,6 +35,7 @@ type Subscriber struct {
 	live                updateSource
 	logger              Logger
 	topicSelectorStore  *TopicSelectorStore
+	historySent         bool
 }
 
 // NewSubscriber creates a new subscriber.
