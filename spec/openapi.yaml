@@ -9,7 +9,7 @@ info:
     email: contact@mercure.rocks
   license:
     name: GNU Affero General Public License v3.0 or later
-    url: https://github.com/dunglas/mercure/blob/master/LICENSE
+    url: https://github.com/culy247/mercure/blob/master/LICENSE
     x-spdx: AGPL-3.0-or-later
 paths:
   "/.well-known/mercure":

@@ -17,7 +17,7 @@ A minimalist chat system, using Mercure and the Flask microframework to handle c
 | fullnameOverride | string | `""` |  |
 | hubUrl | string | `"https://demo.mercure.rocks/.well-known/mercure"` |  |
 | image.pullPolicy | string | `"Always"` |  |
-| image.repository | string | `"dunglas/mercure-example-chat"` |  |
+| image.repository | string | `"culy247/mercure-example-chat"` |  |
 | image.tag | string | `"latest"` |  |
 | imagePullSecrets | list | `[]` |  |
 | ingress.annotations | object | `{}` |  |

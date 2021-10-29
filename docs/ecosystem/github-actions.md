@@ -14,7 +14,7 @@ jobs:
 
         services:
             mercure:
-                image: dunglas/mercure
+                image: culy247/mercure
                 env:
                     SERVER_NAME: :1337
                     MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'

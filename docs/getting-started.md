@@ -14,12 +14,12 @@ Please note that the hub is entirely optional when using the Mercure protocol. Y
 Subscribing to updates from a web browser or any other platform supporting [Server-Sent Events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events) is straightforward:
 
 ```javascript
-// The subscriber subscribes to updates for the https://example.com/users/dunglas topic
+// The subscriber subscribes to updates for the https://example.com/users/culy247 topic
 // and to any topic matching https://example.com/books/{id}
 const url = new URL('https://localhost/.well-known/mercure');
 url.searchParams.append('topic', 'https://example.com/books/{id}');
-url.searchParams.append('topic', 'https://example.com/users/dunglas');
-// The URL class is a convenient way to generate URLs such as https://localhost/.well-known/mercure?topic=https://example.com/books/{id}&topic=https://example.com/users/dunglas
+url.searchParams.append('topic', 'https://example.com/users/culy247');
+// The URL class is a convenient way to generate URLs such as https://localhost/.well-known/mercure?topic=https://example.com/books/{id}&topic=https://example.com/users/culy247
 
 const eventSource = new EventSource(url);
 

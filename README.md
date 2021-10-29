@@ -7,10 +7,10 @@ It is especially useful to publish async and real-time updates of resources serv
 
 [![Awesome](https://awesome.re/badge.svg)](docs/ecosystem/awesome.md)
 [![Artifact HUB](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/mercure)](https://artifacthub.io/packages/search?repo=mercure)
-[![PkgGoDev](https://pkg.go.dev/badge/github.com/dunglas/mercure)](https://pkg.go.dev/github.com/dunglas/mercure)
-![CI](https://github.com/dunglas/mercure/workflows/CI/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/dunglas/mercure/badge.svg?branch=master)](https://coveralls.io/github/dunglas/mercure?branch=master)
-[![Go Report Card](https://goreportcard.com/badge/github.com/dunglas/mercure)](https://goreportcard.com/report/github.com/dunglas/mercure)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/culy247/mercure)](https://pkg.go.dev/github.com/culy247/mercure)
+![CI](https://github.com/culy247/mercure/workflows/CI/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/culy247/mercure/badge.svg?branch=master)](https://coveralls.io/github/culy247/mercure?branch=master)
+[![Go Report Card](https://goreportcard.com/badge/github.com/culy247/mercure)](https://goreportcard.com/report/github.com/culy247/mercure)
 
 ![Subscriptions Schema](spec/subscriptions.png)
 
@@ -18,7 +18,7 @@ It is especially useful to publish async and real-time updates of resources serv
 * [Full documentation](https://mercure.rocks/docs)
 * [Demo](https://demo.mercure.rocks/)
 
-The protocol has been published as [an Internet Draft](https://datatracker.ietf.org/doc/draft-dunglas-mercure/) that [is maintained in this repository](https://mercure.rocks/spec).
+The protocol has been published as [an Internet Draft](https://datatracker.ietf.org/doc/draft-culy247-mercure/) that [is maintained in this repository](https://mercure.rocks/spec).
 
 A reference, production-grade, implementation of [**a Mercure hub**](https://mercure.rocks/docs/hub/install) (the server) is also available in this repository.
 It's a free software (AGPL) written in Go. It is provided along with a library that can be used in any Go application to implement the Mercure protocol directly (without a hub) and an official Docker image.
@@ -35,5 +35,5 @@ See https://mercure.rocks/docs/hub/license.
 
 ## Credits
 
-Created by [Kévin Dunglas](https://dunglas.fr). Graphic design by [Laury Sorriaux](https://github.com/ginifizz).
+Created by [Kévin Dunglas](https://culy247.fr). Graphic design by [Laury Sorriaux](https://github.com/ginifizz).
 Sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).

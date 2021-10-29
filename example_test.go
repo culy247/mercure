@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/dunglas/mercure"
+	"github.com/culy247/mercure"
 )
 
 func Example() {

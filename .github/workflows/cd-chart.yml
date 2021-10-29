@@ -25,7 +25,7 @@ jobs:
           version: v3.4.0
 
       - name: Run chart-releaser
-        uses: dunglas/chart-releaser-action@feat/match-tags
+        uses: culy247/chart-releaser-action@feat/match-tags
         with:
           charts_repo_url: https://charts.mercure.rocks
           match_tags: helm-chart-*

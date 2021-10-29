@@ -39,7 +39,7 @@ func TestMatch(t *testing.T) {
 	_, found = tss.cache.Get("m_https://example.com/{foo}/bar_https://example.com/foo/bar")
 	assert.True(t, found)
 
-	assert.True(t, tss.match("https://example.com/kevin/dunglas", "https://example.com/{fistname}/{lastname}"))
+	assert.True(t, tss.match("https://example.com/kevin/culy247", "https://example.com/{fistname}/{lastname}"))
 	assert.True(t, tss.match("https://example.com/foo/bar", "*"))
 	assert.True(t, tss.match("https://example.com/foo/bar", "https://example.com/foo/bar"))
 	assert.True(t, tss.match("foo", "foo"))

@@ -4,7 +4,7 @@ description: A Helm chart to install a Mercure Hub in a Kubernetes cluster. Merc
 home: https://mercure.rocks
 icon: https://mercure.rocks/static/logo.svg
 sources:
-- https://github.com/dunglas/mercure
+- https://github.com/culy247/mercure
 keywords:
 - mercure
 - hub
@@ -15,6 +15,6 @@ type: application
 version: 0.13.0
 appVersion: "v0.13.0"
 maintainers:
-  - name: dunglas
-    email: kevin@dunglas.fr
-    url: https://dunglas.fr
+  - name: culy247
+    email: kevin@culy247.fr
+    url: https://culy247.fr

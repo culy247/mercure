@@ -42,7 +42,7 @@ func (v *AppVersionInfo) Shortline() string {
 }
 
 func (v *AppVersionInfo) ChangelogURL() string {
-	path := "https://github.com/dunglas/mercure"
+	path := "https://github.com/culy247/mercure"
 
 	if v.Version == "dev" {
 		return fmt.Sprintf("%s/releases/latest", path)
