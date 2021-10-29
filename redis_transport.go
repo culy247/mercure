@@ -340,7 +340,7 @@ func (t *RedisTransport) Close() (err error) {
 func (t *RedisTransport) SubscribeToMessageStream() {
 	streamArgs := &redis.XReadArgs{Streams: []string{t.streamName, "$"}, Count: 1, Block: 10000}
 	for {
-		t.logger.Debug("Looking For Messages", zap.String("Entry ID", streamArgs.Streams[1]))
+		t.logger.Info("Looking For Messages", zap.String("Entry ID", streamArgs.Streams[1]))
 		select {
 		case <-t.closed:
 			t.logger.Info("Closing Transport. Entry ID: %s", zap.String("Entry ID", streamArgs.Streams[1]))
@@ -349,7 +349,7 @@ func (t *RedisTransport) SubscribeToMessageStream() {
 		default:
 			streams, err := t.client.XRead(streamArgs).Result()
 			if err != nil {
-				t.logger.Debug("Stream XRead error", zap.Error(err))
+				t.logger.Info("Stream XRead error", zap.Error(err))
 
 				continue
 			}
@@ -361,7 +361,7 @@ func (t *RedisTransport) SubscribeToMessageStream() {
 			message, ok := entry.Values["data"]
 			if !ok {
 				streamArgs.Streams[1] = entry.ID
-				t.logger.Warn("Couldn't Decode Entry", zap.String("Last Entry ID", streamArgs.Streams[1]))
+				t.logger.Info("Couldn't Decode Entry", zap.String("Last Entry ID", streamArgs.Streams[1]))
 
 				continue
 			}
@@ -369,7 +369,7 @@ func (t *RedisTransport) SubscribeToMessageStream() {
 			var update *Update
 			if err := json.Unmarshal([]byte(fmt.Sprintf("%v", message)), &update); err != nil {
 				streamArgs.Streams[1] = entry.ID
-				t.logger.Warn("Couldn't JSON Load Entry.", zap.String("Entry ID", entry.ID))
+				t.logger.Info("Couldn't JSON Load Entry.", zap.String("Entry ID", entry.ID))
 
 				continue
 			}
@@ -389,7 +389,7 @@ func (t *RedisTransport) SubscribeToMessageStream() {
 					// This is the only place where we close the connection
 					// If this errors out, it means the clients gone. we shouldnt run this anymore
 					t.closeSubscriberChannel(subscriber)
-					t.logger.Warn(
+					t.logger.Info(
 						"Couldn't Dispatch Entry ID.. Connection Closed to Subscriber",
 						zap.String("Entry ID", entry.ID),
 						zap.String("Subscriber ID", subscriber.ID),
