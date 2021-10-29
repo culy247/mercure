@@ -8,7 +8,7 @@
 
 The Mercure.rocks hub is available as a custom build of the [Caddy web server](https://caddyserver.com/) including the Mercure.rocks module.
 
-First, download the archive corresponding to your operating system and architecture [from the release page](https://github.com/dunglas/mercure/releases), extract the archive and open a shell in the resulting directory.
+First, download the archive corresponding to your operating system and architecture [from the release page](https://github.com/culy247/mercure/releases), extract the archive and open a shell in the resulting directory.
 
 *Note:* Mac OS users must use the `Darwin` binary.
 
@@ -46,7 +46,7 @@ When the server is up and running, the following endpoints are available:
 
 See [the protocol](../../spec/mercure.md) for more details about these endpoints.
 
-To compile the development version, see [https://github.com/dunglas/mercure/blob/master/CONTRIBUTING.md](https://github.com/dunglas/mercure/blob/main/CONTRIBUTING.md).
+To compile the development version, see [https://github.com/culy247/mercure/blob/master/CONTRIBUTING.md](https://github.com/culy247/mercure/blob/main/CONTRIBUTING.md).
 
 ## Docker Image
 
@@ -57,7 +57,7 @@ A Docker image is available on Docker Hub. The following command is enough to ge
         -e MERCURE_SUBSCRIBER_JWT_KEY='!ChangeMe!' \
         -p 80:80 \
         -p 443:443 \
-        dunglas/mercure caddy run -config /etc/caddy/Caddyfile.dev
+        culy247/mercure caddy run -config /etc/caddy/Caddyfile.dev
 
 The server is then available on `https://localhost`. Anonymous subscribers are allowed and the debugger UI is available on `https://localhost/.well-known/mercure/ui/`.
 
@@ -68,7 +68,7 @@ In production, simply run:
         -e MERCURE_SUBSCRIBER_JWT_KEY='!ChangeMe!' \
         -p 80:80 \
         -p 443:443 \
-        dunglas/mercure
+        culy247/mercure
 
 HTTPS support is automatically enabled. If you run the Mercure hub behind a reverse proxy [such as NGINX](cookbooks.md#using-nginx-as-an-http-2-reverse-proxy-in-front-of-the-hub), you usually want to use unencrypted HTTP.
 This can be done like that:
@@ -78,7 +78,7 @@ This can be done like that:
         -e MERCURE_PUBLISHER_JWT_KEY='!ChangeMe!' \
         -e MERCURE_SUBSCRIBER_JWT_KEY='!ChangeMe!' \
         -p 80:80 \
-        dunglas/mercure
+        culy247/mercure
 
 The Docker image is based on [the Caddy Server Docker image](https://registry.hub.docker.com/_/caddy).
 See [the configuration section](config.md) and [the documentation of the Docker image for Caddy](https://registry.hub.docker.com/_/caddy) to learn how to configure it to fit your needs.
@@ -92,7 +92,7 @@ To install the chart with the release name `my-release`, run the following comma
     helm repo add mercure https://charts.mercure.rocks
     helm install my-release mercure/mercure
 
-See [the list of available values](https://github.com/dunglas/mercure/blob/main/charts/mercure/README.md) for this chart.
+See [the list of available values](https://github.com/culy247/mercure/blob/main/charts/mercure/README.md) for this chart.
 
 ## Docker Compose
 
@@ -104,7 +104,7 @@ version: "3.7"
 
 services:
   caddy:
-    image: dunglas/mercure
+    image: culy247/mercure
     restart: unless-stopped
     environment:
       # Uncomment the following line to disable HTTPS
@@ -135,11 +135,11 @@ Or download the `PKGBUILD` and compile and install it: `makepkg -sri`.
 
 ## Custom Caddy Build
 
-It's also possible to [download Caddy with Mercure and other modules included](https://caddyserver.com/download?package=github.com%2Fdunglas%2Fmercure%2Fcaddy), or to build your own binaries using [`xcaddy`](https://github.com/caddyserver/xcaddy):
+It's also possible to [download Caddy with Mercure and other modules included](https://caddyserver.com/download?package=github.com%2Fculy247%2Fmercure%2Fcaddy), or to build your own binaries using [`xcaddy`](https://github.com/caddyserver/xcaddy):
 
     xcaddy build \
-      --with github.com/dunglas/mercure \
-      --with github.com/dunglas/mercure/caddy
+      --with github.com/culy247/mercure \
+      --with github.com/culy247/mercure/caddy
 
 ## Integrations in Popular Frameworks
 

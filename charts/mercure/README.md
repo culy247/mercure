@@ -24,7 +24,7 @@ To install the chart with the release name `my-release`, run the following comma
 | fullnameOverride | string | `""` | A name to substitute for the full names of resources. |
 | globalOptions | string | `""` | Inject global options in the Caddyfile. |
 | image.pullPolicy | string | `"IfNotPresent"` | [Image pull policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating already existing images on a node. |
-| image.repository | string | `"dunglas/mercure"` | Name of the image repository to pull the container image from. |
+| image.repository | string | `"culy247/mercure"` | Name of the image repository to pull the container image from. |
 | image.tag | string | `""` | Overrides the image tag whose default is the chart appVersion. |
 | imagePullSecrets | list | `[]` | Reference to one or more secrets to be used when [pulling images](https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-pod-that-uses-your-secret) (from private registries). |
 | ingress.annotations | object | `{}` | Annotations to be added to the ingress. |

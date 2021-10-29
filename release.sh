@@ -34,7 +34,7 @@ git checkout main
 git pull
 
 cd caddy/
-go get "github.com/dunglas/mercure@v$1"
+go get "github.com/culy247/mercure@v$1"
 cd -
 
 sed -i '' -e "s/^version: .*$/version: $1/" -e "s/^appVersion: .*$/appVersion: \"v$1\"/" charts/mercure/Chart.yaml

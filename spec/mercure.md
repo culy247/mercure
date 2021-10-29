@@ -6,7 +6,7 @@ submissiontype = "IETF"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-dunglas-mercure-07"
+value = "draft-culy247-mercure-07"
 stream = "IETF"
 status = "standard"
 

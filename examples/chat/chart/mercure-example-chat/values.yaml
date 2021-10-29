@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: dunglas/mercure-example-chat
+  repository: culy247/mercure-example-chat
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: latest

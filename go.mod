@@ -1,4 +1,4 @@
-module github.com/dunglas/mercure
+module github.com/culy247/mercure
 
 go 1.16
 
@@ -7,7 +7,7 @@ require (
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
 	github.com/felixge/httpsnoop v1.0.2 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
-	github.com/go-redis/redis v6.15.9+incompatible // indirect
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/golang-jwt/jwt/v4 v4.0.1-0.20210824015611-2bd8ee77fc3a
 	github.com/golang/glog v1.0.0 // indirect

@@ -1,7 +1,7 @@
 package mercure
 
 import (
-	"github.com/dunglas/mercure/common"
+	"github.com/culy247/mercure/common"
 	"github.com/gorilla/mux"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"

@@ -3,7 +3,7 @@
 ## License and Copyright Attribution
 
 When you open a Pull Request to the project, you agree to license your code under the [GNU AFFERO GENERAL PUBLIC LICENSE](LICENSE)
-and to transfer the copyright on the submitted code to [Kévin Dunglas](https://dunglas.fr).
+and to transfer the copyright on the submitted code to [Kévin Dunglas](https://culy247.fr).
 
 Be sure to you have the right to do that (if you are a professional, ask your company)!
 
@@ -38,12 +38,12 @@ Examples:
 
 Clone the project and make your changes:
 
-    git clone https://github.com/dunglas/mercure
+    git clone https://github.com/culy247/mercure
     cd mercure
 
 To run the test suite:
 
-    go test -v -timeout 30s github.com/dunglas/mercure
+    go test -v -timeout 30s github.com/culy247/mercure
 
 To test the Caddy module:
 

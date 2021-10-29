@@ -7,7 +7,7 @@ The `DEBUG` environment variable has gone. The the `GLOBAL_OPTIONS` environment 
 ## 0.11
 
 The Mercure.rocks Hub is now available as a module for the [Caddy web server](https://caddyserver.com/).
-It is also easier to use as [a standalone Go library](https://pkg.go.dev/github.com/dunglas/mercure).
+It is also easier to use as [a standalone Go library](https://pkg.go.dev/github.com/culy247/mercure).
 We still provide standalone binaries, but it's now a custom build of Caddy including the Mercure module.
 
 Builds of the legacy server are also available to ease the transition, but starting with version 0.12 only the Caddy-based builds will be provided (they have the `legacy` prefix).

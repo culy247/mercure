@@ -9,7 +9,7 @@ These versions are designed for fault tolerance and can support very high loads.
 Both versions work by providing extra transports supporting synchronization of several nodes.
 They support all features of the free Hub.
 
-If you don't want to purchase a managed or an On Premise version of the Mercure.rocks Hub, you can also create your custom build of Mercure.rocks [using a custom transport](https://github.com/dunglas/mercure/blob/main/hub/transport.go#L13-L22).
+If you don't want to purchase a managed or an On Premise version of the Mercure.rocks Hub, you can also create your custom build of Mercure.rocks [using a custom transport](https://github.com/culy247/mercure/blob/main/hub/transport.go#L13-L22).
 
 ## Managed Version
 
@@ -37,7 +37,7 @@ We can help you to decide which synchronization mechanism will be the best suite
 The HA version is provided as binaries and as a Docker image. We also maintain a Helm chart allowing to install it
 on any Kubernetes cluster.
 
-For more details (and a benchmark), [refer to the case study presented by the iGraal's CTO](https://speakerdeck.com/dunglas/mercure-real-time-for-php-made-easy?slide=52).
+For more details (and a benchmark), [refer to the case study presented by the iGraal's CTO](https://speakerdeck.com/culy247/mercure-real-time-for-php-made-easy?slide=52).
 
 ### Purchasing
 
