@@ -224,7 +224,21 @@ func (t *RedisTransport) AddSubscriber(s *Subscriber) error {
 	if s.RequestLastEventID != "" {
 		t.dispatchHistory(s, toSeq)
 	}
-	s.historySent = true
+
+	return nil
+}
+
+// RemoveSubscriber removes a new subscriber from the transport.
+func (t *RedisTransport) RemoveSubscriber(s *Subscriber) error {
+	select {
+	case <-t.closed:
+		return ErrClosedTransport
+	default:
+	}
+
+	t.Lock()
+	delete(t.subscribers, s)
+	t.Unlock()
 
 	return nil
 }
@@ -264,7 +278,6 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 		fromSeq, err = t.client.LIndex(t.cacheKeyID(fromSeq), 0).Result()
 		if err != nil {
 			s.HistoryDispatched(responseLastEventID)
-			s.historySent = true
 
 			return
 		}
@@ -274,7 +287,6 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 		result, err := t.client.XRead(streamArgs).Result()
 		if err != nil {
 			s.HistoryDispatched(responseLastEventID)
-			s.historySent = true
 
 			return
 		}
@@ -287,8 +299,7 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 	messages, err := t.client.XRange(t.streamName, fromSeq, toSeq).Result()
 	if err != nil {
 		s.HistoryDispatched(responseLastEventID)
-		s.historySent = true
-
+		
 		return
 	}
 
@@ -296,30 +307,26 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 		message, ok := entry.Values["data"]
 		if !ok {
 			s.HistoryDispatched(responseLastEventID)
-			s.historySent = true
-
+			
 			return
 		}
 
 		var update *Update
 		if err := json.Unmarshal([]byte(fmt.Sprintf("%v", message)), &update); err != nil {
 			s.HistoryDispatched(responseLastEventID)
-			s.historySent = true
-
+			
 			return
 		}
 
 		if !s.Dispatch(update, true) {
 			s.HistoryDispatched(responseLastEventID)
-			s.historySent = true
-
+			
 			return
 		}
 		responseLastEventID = entry.ID
 	}
 
 	s.HistoryDispatched(responseLastEventID)
-	s.historySent = true
 }
 
 // Close closes the Transport.
@@ -379,11 +386,6 @@ func (t *RedisTransport) SubscribeToMessageStream() {
 			_, subscribers, _ := t.GetSubscribers()
 
 			for _, subscriber := range subscribers {
-				if !subscriber.historySent {
-					t.logger.Info("Subscriber is still receiving history", zap.String("Subscriber ID", subscriber.ID))
-
-					continue
-				}
 
 				if !subscriber.Dispatch(update, false) {
 					// This is the only place where we close the connection

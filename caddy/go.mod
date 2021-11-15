@@ -7,7 +7,9 @@ replace github.com/culy247/mercure => ../
 require (
 	github.com/caddyserver/caddy/v2 v2.4.3
 	github.com/caddyserver/certmagic v0.14.1 // indirect
-	github.com/culy247/mercure v0.13.1-0.20211028144523-b23954b65707
+	github.com/culy247/mercure v0.13.0
+	github.com/dunglas/mercure v0.13.0
+	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/google/uuid v1.3.0 // indirect
 	github.com/klauspost/cpuid/v2 v2.0.9 // indirect
 	github.com/miekg/dns v1.1.43 // indirect

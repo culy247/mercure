@@ -84,11 +84,8 @@ type Mercure struct {
 	// Transport to use.
 	TransportURL string `json:"transport_url,omitempty"`
 
-	// Number of cache counters, defaults to 6e7, set to -1 to disable the cache. See https://github.com/dgraph-io/ristretto for details.
-	CacheNumCounters *int64 `json:"cache_max_counters,omitempty"`
-
-	// Maximum cache cost, defaults to 100MB, set to -1 to disable the cache. See https://github.com/dgraph-io/ristretto for details.
-	CacheMaxCost *int64 `json:"cache_max_cost,omitempty"`
+	// Triggers use of LRU topic selector cache and avoidance of select priority queue (recommend 10,000 - 1,000,000)
+	LRUShardSize *int64 `json:"lru_shard_size,omitempty"`
 
 	hub    *mercure.Hub
 	logger *zap.Logger
@@ -120,23 +117,12 @@ func (m *Mercure) Provision(ctx caddy.Context) error { //nolint:funlen
 		m.TransportURL = "bolt://mercure.db"
 	}
 
-	var (
-		nc int64
-		mc int64
-	)
-	if m.CacheNumCounters == nil {
-		nc = mercure.TopicSelectorStoreDefaultCacheNumCounters
-	} else {
-		nc = *m.CacheNumCounters
+	maxEntriesPerShard := mercure.DefaultTopicSelectorStoreLRUMaxEntriesPerShard
+	if m.LRUShardSize != nil {
+		maxEntriesPerShard = *m.LRUShardSize
 	}
 
-	if m.CacheMaxCost == nil {
-		mc = mercure.TopicSelectorStoreCacheMaxCost
-	} else {
-		mc = *m.CacheMaxCost
-	}
-
-	tss, err := mercure.NewTopicSelectorStore(nc, mc)
+	tss, err := mercure.NewTopicSelectorStoreLRU(maxEntriesPerShard, mercure.DefaultTopicSelectorStoreLRUShardCount)
 	if err != nil {
 		return err //nolint:wrapcheck
 	}
@@ -149,7 +135,9 @@ func (m *Mercure) Provision(ctx caddy.Context) error { //nolint:funlen
 		}
 
 		if m.WriteTimeout != nil {
-			u.Query().Set("write_timeout", time.Duration(*m.WriteTimeout).String())
+			query := u.Query()
+			query.Set("write_timeout", time.Duration(*m.WriteTimeout).String())
+			u.RawQuery = query.Encode()
 		}
 
 		transport, err := mercure.NewTransport(u, m.logger, tss)
@@ -337,7 +325,7 @@ func (m *Mercure) UnmarshalCaddyfile(d *caddyfile.Dispenser) error { //nolint:fu
 
 				m.TransportURL = d.Val()
 
-			case "cache":
+			case "lru_cache":
 				if !d.NextArg() {
 					return d.ArgErr()
 				}
@@ -347,18 +335,7 @@ func (m *Mercure) UnmarshalCaddyfile(d *caddyfile.Dispenser) error { //nolint:fu
 					return err //nolint:wrapcheck
 				}
 
-				m.CacheNumCounters = &v
-
-				if !d.NextArg() {
-					return d.ArgErr()
-				}
-
-				v, err = strconv.ParseInt(d.Val(), 10, 64)
-				if err != nil {
-					return err //nolint:wrapcheck
-				}
-
-				m.CacheMaxCost = &v
+				m.LRUShardSize = &v
 			}
 		}
 	}

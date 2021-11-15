@@ -96,6 +96,7 @@ func SetFlags(fs *pflag.FlagSet, v *viper.Viper) {
 	fs.BoolP("use-forwarded-headers", "f", false, "enable headers forwarding")
 	fs.BoolP("demo", "D", false, "enable the demo mode")
 	fs.BoolP("subscriptions", "s", false, "dispatch updates when subscriptions are created or terminated")
+	fs.Int64("tcsz", DefaultTopicSelectorStoreLRUMaxEntriesPerShard, "size of each shard in topic selector store cache")
 
 	fs.Bool("metrics-enabled", false, "enable metrics")
 	fs.String("metrics-addr", "127.0.0.1:9764", "metrics HTTP server address")
@@ -150,7 +151,12 @@ func NewHubFromViper(v *viper.Viper) (*Hub, error) { //nolint:funlen,gocognit
 		return nil, fmt.Errorf("unable to create logger: %w", err)
 	}
 
-	tss, err := NewTopicSelectorStore(TopicSelectorStoreDefaultCacheNumCounters, TopicSelectorStoreCacheMaxCost)
+	var tss *TopicSelectorStore
+	tcsz := v.GetInt64("tcsz")
+	if tcsz == 0 {
+		tcsz = DefaultTopicSelectorStoreLRUMaxEntriesPerShard
+	}
+	tss, err = NewTopicSelectorStoreLRU(tcsz, DefaultTopicSelectorStoreLRUShardCount)
 	if err != nil {
 		return nil, err
 	}
