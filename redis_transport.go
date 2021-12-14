@@ -1,6 +1,7 @@
 package mercure
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -12,6 +13,8 @@ import (
 	"github.com/go-redis/redis/v8"
 	"go.uber.org/zap"
 )
+
+var ctx = context.Background()
 
 const defaultRedisStreamName = "mercure-hub-updates"
 
@@ -73,7 +76,7 @@ func createRedisClient(u *url.URL) (*redis.Client, string, int64, error) {
 		client = redis.NewClient(redisOptions)
 	}
 
-	if _, err := client.Ping(client.Context()).Result(); err != nil {
+	if _, err := client.Ping(ctx).Result(); err != nil {
 		err = &TransportError{u.Redacted(), fmt.Sprintf(`error connecting to redis:  %s`, err), err}
 
 		return nil, streamName, 0, err
@@ -126,7 +129,7 @@ func (t *RedisTransport) cacheKeyID(id string) string {
 
 func getLastEventID(client *redis.Client, streamName string) string {
 	lastEventID := EarliestLastEventID
-	messages, err := client.XRevRangeN(client.Context(), streamName, "+", "-", 1).Result()
+	messages, err := client.XRevRangeN(ctx, streamName, "+", "-", 1).Result()
 	if err != nil {
 		return lastEventID
 	}
@@ -197,7 +200,7 @@ func (t *RedisTransport) persist(updateID string, updateJSON []byte) error {
 	}
 
 	t.logger.Info("Executing Update")
-	if err := t.client.Eval(t.client.Context(), script, []string{t.streamName, t.cacheKeyID(updateID), t.cacheKeyID("")}, t.size, updateJSON).Err(); err != nil {
+	if err := t.client.Eval(ctx, script, []string{t.streamName, t.cacheKeyID(updateID), t.cacheKeyID("")}, t.size, updateJSON).Err(); err != nil {
 		return redisNilToNil(err)
 	}
 
@@ -275,7 +278,7 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 	if fromSeq != EarliestLastEventID {
 		// Get the Sequence ID Of the Message They Received
 		var err error
-		fromSeq, err = t.client.LIndex(t.client.Context(), t.cacheKeyID(fromSeq), 0).Result()
+		fromSeq, err = t.client.LIndex(ctx, t.cacheKeyID(fromSeq), 0).Result()
 		if err != nil {
 			s.HistoryDispatched(responseLastEventID)
 
@@ -284,7 +287,7 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 
 		// Get the Next Sequence ID
 		streamArgs := &redis.XReadArgs{Streams: []string{t.streamName, fromSeq}, Count: 1, Block: 0}
-		result, err := t.client.XRead(t.client.Context(), streamArgs).Result()
+		result, err := t.client.XRead(ctx, streamArgs).Result()
 		if err != nil {
 			s.HistoryDispatched(responseLastEventID)
 
@@ -296,7 +299,7 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 		fromSeq = "-"
 	}
 
-	messages, err := t.client.XRange(t.client.Context(), t.streamName, fromSeq, toSeq).Result()
+	messages, err := t.client.XRange(ctx, t.streamName, fromSeq, toSeq).Result()
 	if err != nil {
 		s.HistoryDispatched(responseLastEventID)
 
@@ -355,7 +358,7 @@ func (t *RedisTransport) SubscribeToMessageStream() {
 
 			return
 		default:
-			streams, err := t.client.XRead(t.client.Context(), streamArgs).Result()
+			streams, err := t.client.XRead(ctx, streamArgs).Result()
 			if err != nil {
 				t.logger.Info("Stream XRead error", zap.Error(err))
 
