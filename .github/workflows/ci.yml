@@ -47,11 +47,11 @@ jobs:
       run: ./tests/use-go-deadlock.sh
 
     - name: Test
-      run: go test -race -covermode atomic -coverprofile=profile.cov -coverpkg=github.com/dunglas/mercure ./...
+      run: go test -race -covermode atomic -coverprofile=profile.cov -coverpkg=github.com/culy247/mercure ./...
 
     - name: Test Caddy module
       run: |
-        go test -timeout 1m -race -covermode atomic -coverprofile=profile.cov -coverpkg=github.com/dunglas/mercure ./...
+        go test -timeout 1m -race -covermode atomic -coverprofile=profile.cov -coverpkg=github.com/culy247/mercure ./...
         sed '1d' profile.cov >> ../profile.cov
       working-directory: ./caddy
 
