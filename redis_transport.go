@@ -390,7 +390,7 @@ func (t *RedisTransport) SubscribeToMessageStream() {
 			_, subscribers, _ := t.GetSubscribers()
 
 			for _, subscriber := range subscribers {
-
+				t.logger.Info("subscriber.Dispatch", zap.String("subscriber ID", subscriber.ID))
 				if !subscriber.Dispatch(update, false) {
 					// This is the only place where we close the connection
 					// If this errors out, it means the clients gone. we shouldnt run this anymore
