@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/go-redis/redis"
+	"github.com/go-redis/redis/v8"
 	"go.uber.org/zap"
 )
 
@@ -299,7 +299,7 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 	messages, err := t.client.XRange(t.streamName, fromSeq, toSeq).Result()
 	if err != nil {
 		s.HistoryDispatched(responseLastEventID)
-		
+
 		return
 	}
 
@@ -307,20 +307,20 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 		message, ok := entry.Values["data"]
 		if !ok {
 			s.HistoryDispatched(responseLastEventID)
-			
+
 			return
 		}
 
 		var update *Update
 		if err := json.Unmarshal([]byte(fmt.Sprintf("%v", message)), &update); err != nil {
 			s.HistoryDispatched(responseLastEventID)
-			
+
 			return
 		}
 
 		if !s.Dispatch(update, true) {
 			s.HistoryDispatched(responseLastEventID)
-			
+
 			return
 		}
 		responseLastEventID = entry.ID
