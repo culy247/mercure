@@ -127,6 +127,7 @@ foo`;
     else updateEventSource = new EventSource(u);
 
     updateEventSource.onmessage = function (e) {
+      console.log('updateEventSource.onmessage', e)
       if (!ol) {
         ol = document.createElement("ol");
         ol.reversed = true;
