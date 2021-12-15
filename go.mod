@@ -7,7 +7,7 @@ require (
 	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
 	github.com/felixge/httpsnoop v1.0.2 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
-	github.com/go-redis/redis/v8 v8.11.4
+	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/gofrs/uuid v4.0.0+incompatible
 	github.com/golang-jwt/jwt/v4 v4.0.1-0.20210824015611-2bd8ee77fc3a
 	github.com/golang/glog v1.0.0 // indirect
@@ -17,6 +17,8 @@ require (
 	github.com/hashicorp/golang-lru v0.5.4
 	github.com/kevburnsjr/skipfilter v0.0.1
 	github.com/kr/text v0.2.0 // indirect
+	github.com/onsi/ginkgo v1.16.5 // indirect
+	github.com/onsi/gomega v1.17.0 // indirect
 	github.com/prometheus/client_golang v1.11.0
 	github.com/prometheus/client_model v0.2.0
 	github.com/prometheus/common v0.30.0 // indirect
