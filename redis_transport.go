@@ -14,7 +14,7 @@ import (
 	"go.uber.org/zap"
 )
 
-var ctx = context.Background()
+ctx := context.Background()
 
 const defaultRedisStreamName = "mercure-hub-updates"
 
