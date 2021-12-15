@@ -14,7 +14,6 @@ import (
 	"go.uber.org/zap"
 )
 
-ctx := context.Background()
 
 const defaultRedisStreamName = "mercure-hub-updates"
 
@@ -76,6 +75,7 @@ func createRedisClient(u *url.URL) (*redis.Client, string, int64, error) {
 		client = redis.NewClient(redisOptions)
 	}
 
+	ctx := context.Background()
 	if _, err := client.Ping(ctx).Result(); err != nil {
 		err = &TransportError{u.Redacted(), fmt.Sprintf(`error connecting to redis:  %s`, err), err}
 
@@ -129,6 +129,7 @@ func (t *RedisTransport) cacheKeyID(id string) string {
 
 func getLastEventID(client *redis.Client, streamName string) string {
 	lastEventID := EarliestLastEventID
+	ctx := context.Background()
 	messages, err := client.XRevRangeN(ctx, streamName, "+", "-", 1).Result()
 	if err != nil {
 		return lastEventID
@@ -200,6 +201,7 @@ func (t *RedisTransport) persist(updateID string, updateJSON []byte) error {
 	}
 
 	t.logger.Info("Executing Update")
+	ctx := context.Background()
 	if err := t.client.Eval(ctx, script, []string{t.streamName, t.cacheKeyID(updateID), t.cacheKeyID("")}, t.size, updateJSON).Err(); err != nil {
 		return redisNilToNil(err)
 	}
@@ -275,6 +277,7 @@ func (t *RedisTransport) dispatchHistory(s *Subscriber, toSeq string) {
 	// If it does then we search the redis stream for the update that came after this event
 	// Once we have that, we can then go through the stream from that stream ID to the end of the query
 	// If this fails at any point, we exit history sending and just start the goroutine to start sending new events from this point onwards
+	ctx := context.Background()
 	if fromSeq != EarliestLastEventID {
 		// Get the Sequence ID Of the Message They Received
 		var err error
@@ -358,6 +361,7 @@ func (t *RedisTransport) SubscribeToMessageStream() {
 
 			return
 		default:
+			ctx := context.Background()
 			streams, err := t.client.XRead(ctx, streamArgs).Result()
 			if err != nil {
 				t.logger.Info("Stream XRead error", zap.Error(err))
