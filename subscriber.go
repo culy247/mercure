@@ -75,7 +75,7 @@ func (s *Subscriber) Dispatch(u *Update, fromHistory bool) bool {
 	}
 
 	s.out <- u
-
+	
 	return true
 }
 

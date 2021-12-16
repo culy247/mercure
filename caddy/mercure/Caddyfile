@@ -1,7 +1,6 @@
 # Learn how to configure the Mercure.rocks Hub on https://mercure.rocks/docs/hub/config
 {
     servers {
-        
         protocol {
             experimental_http3
         }
@@ -18,19 +17,19 @@ route {
 
     mercure {
         # Transport to use (default to Bolt)
-        #transport_url redis://:jBLsoUDG8v66J8RVqobrJ4QI3WFVVklY@redis-10141.c244.us-east-1-2.ec2.cloud.redislabs.com:10141/0?read_timeout=100&dial_timeout=100
-        transport_url redis://127.0.0.1:6379/0?read_timeout=100&dial_timeout=100
+        transport_url redis://:jBLsoUDG8v66J8RVqobrJ4QI3WFVVklY@redis-10141.c244.us-east-1-2.ec2.cloud.redislabs.com:10141/0?read_timeout=100&dial_timeout=100
+        #transport_url redis://127.0.0.1:6379/0
+        #transport_url bolt://abc.db
         # Publisher JWT key
-        publisher_jwt !ChangeMe! {env.MERCURE_PUBLISHER_JWT_ALG}
+        publisher_jwt !ChangeMe!
         # Subscriber JWT key
-        subscriber_jwt !ChangeMe! {env.MERCURE_SUBSCRIBER_JWT_ALG}
+        subscriber_jwt !ChangeMe!
         # Permissive configuration for the development environment
-        cors_origins http://localhost:3000 http://localhost:4000 https://www-dev.factorx.jp https://www.factorx.jp
-        publish_origins http://localhost:3000 http://localhost:4000 https://www-dev.factorx.jp https://www.factorx.jp
+        cors_origins *
+        publish_origins *
         anonymous
         demo
         subscriptions
-        read_timeout 10s
         # Extra directives
         {$MERCURE_EXTRA_DIRECTIVES}
     }
